@@ -1,0 +1,80 @@
+{% extends 'base.html' %} {% load static %} {% load crispy_forms_tags %} {% block title %} {{lessons.name}} {% endblock %} {% block content %}
+
+<section class="text-center">
+    <h2 class="mb-0 mt-5 font-weight-bold">Lecture</h2>
+
+    <!-- video -->
+    <div class="row d-flex justify-content-center mb-3">
+        <div id="player-overlay">
+            <video controls>
+                <source src="{{lessons.video.url}}"  type="video/mp4">
+              </video>
+        </div>
+    </div>
+    <!-- download cards -->
+    <div class="row d-flex justify-content-center mb-3 mt-3">
+        <!-- download presentations -->
+        <div class="col-md-4 mb-4 mt-4">
+            <div class="card box-shadow-hover">
+                <div class="card-body">
+                    <h5 class="card-title">Download Ppt</h5>
+                    {% if lessons.ppt %}
+                    <p class="card-text">Download ppt from the lecture</p>
+                    <a href="{{lessons.ppt.url}}" download>
+                        <button type="button" class="button-les"><span>Get Files</span></button>
+                    </a>
+                    {% else %}
+                    <p class="card-text"> No PPT available</p>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+        <!-- download notes -->
+        <div class="col-md-4 mb-4 mt-4">
+            <div class="card box-shadow-hover">
+                <div class="card-body">
+                    <h5 class="card-title">Download Notes</h5>
+                    {% if lessons.Notes %}
+                    <p class="card-text">Download notes from the lecture</p>
+                    <a href="{{lessons.Notes.url}}" download>
+                        <button type="button" class="button-les"><span>Get Files</span></button>
+                    </a>
+                    {% else %}
+                    <p class="card-text">Notes not available</p>
+                    {%endif%}
+
+                </div>
+            </div>
+        </div>
+        <!-- download video -->
+        <div class="col-md-4 mb-4 mt-4">
+            <div class="card box-shadow-hover">
+                <div class="card-body">
+                    <h5 class="card-title">Download Video</h5>
+                    <p class="card-text">Download Video from the lecture</p>
+                    <a href="{{lessons.video.url}}" download>
+                        <button type="button" class="button-les"><span>Get Files</span></button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- update and delete button -->
+    <div class="row d-flex justify-content-center mb-3 mt-3">
+        {% if user.userprofileinfo.user_type == 'teacher' or user.is_superuser %}
+        <div class="col-md-6 mb-3 text-center">
+            <a href="{% url 'curriculum:lesson_update' standard=lessons.Standard.slug subject=lessons.subject.slug slug=lessons.slug %}" class="btn btn-primary btn-lg mr-4 btn-block">Update Lesson</a>
+        </div>
+        <div class="col-md-6">
+            <a href="{% url 'curriculum:lesson_delete' standard=lessons.Standard.slug subject=lessons.subject.slug slug=lessons.slug %}" class="btn btn-danger btn-lg mr-4 btn-block"> Delete Lesson </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+
+
+
+
+{%endblock%}
