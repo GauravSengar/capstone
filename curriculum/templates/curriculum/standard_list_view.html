@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% load static %} {% block title %} Standards {% endblock %} {% block content %}
+<!-- section 1 for standards-->
+
+<section id="best-features" class="text-center">
+    <h2 class="mb-5 mt-5 font-weight-bold">Browse Courses</h2>
+    <!-- class row for description-->
+
+    <!-- class row2 for cards -->
+    <div class="row">
+        {% for standard in standards %}
+        <div class="col-md-4 d-flex mb-5 justify-content-center">
+            <div class="card card-std text-center" style="width: 20rem;">
+                <div class="card-body text-center">
+                    <h4 class="card-title">{{standard.name}}</h4>
+                    <p class="card-text">{{standard.description|truncatechars:75}}</p>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'curriculum:subject_list' slug=standard.slug %}" class="btn btn-primary">View Subjects</a> {%else%}
+                    <p>Register or login to view subjects</p>
+                    <a href="{% url 'user_login' %}" class="btn btn-std">Login</a>
+                    <a href="{% url 'register' %}" class="btn btn-primary">Register</a> {%endif%}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{%endblock%}
